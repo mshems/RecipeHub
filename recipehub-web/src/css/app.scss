@@ -1,10 +1,29 @@
 // app global css in SCSS form
+body {
+  background: #f1f2f7;
+}
+
+.text-muted {
+  color: #bdbdbd;
+}
 
 .card-title {
   font-size: 1.5rem;
   font-weight: bold;
+  padding-bottom: 0px;
 }
 
 .card-subtitle {
-  font-size: 1.25rem;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 1.125rem;
+  color: #909090;
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  background-color: #ccd8f0;
 }
