@@ -17,7 +17,8 @@ const routes = [
     children: [
       { path: '', props: false, component: () => import('src/pages/Recipes.vue') },
       { path: 'new', props: true, component: () => import('src/pages/CreateRecipe.vue') },
-      { path: ':id', props: true, component: () => import('src/pages/Recipe.vue') }
+      { path: ':id', props: true, component: () => import('src/pages/Recipe.vue') },
+      { path: ':id/edit', props: true, component: () => import('src/pages/EditRecipe.vue') }
     ]
   }
 ]

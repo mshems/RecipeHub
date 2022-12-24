@@ -1,21 +1,30 @@
 <script setup>
-import { useRouter } from 'vue-router'
-
 defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  },
   data: {
     type: Object,
     required: true
   }
 })
 
-const router = useRouter()
 </script>
 <template>
-  <q-card class="clickable-card" @click="router.push(`/recipes/${data.id}`)">
-    <q-card-section class="card-title">{{ data.title }}</q-card-section>
-    <q-card-section v-if="data.link" class="q-py-xs">
+  <q-card>
+    <q-img
+      :src="data.image || `https://dummyimage.com/600x400/909090/ffffff`"
+      :ratio="16/9"
+      spinner-color="primary"
+    />
+    <q-card-section class="card-title">
+      <q-skeleton v-if="loading" type="text" />
+      <span v-else>{{ data.title }}</span>
+    </q-card-section>
+    <q-card-section class="q-py-xs">
       <q-list>
-        <q-item>
+        <q-item v-if="data.link" :href="data.link" target="_blank">
           <q-item-section avatar>
             <q-icon name="link" />
           </q-item-section>
@@ -26,7 +35,20 @@ const router = useRouter()
         </q-item>
       </q-list>
     </q-card-section>
-    <q-card-section v-else class="card-subtitle">{{ data.title }}</q-card-section>
+    <q-card-section class="q-py-xs">
+      <q-input
+        label="Notes"
+        filled
+        readonly
+        :model-value="data.notes"
+        type="textarea"
+      />
+    </q-card-section>
+    <q-card-section class="text-muted text-center">
+      Updated
+      {{ data.last_updated?.toDate().toLocaleDateString() }}
+      {{ data.last_updated?.toDate().toLocaleTimeString() }}
+    </q-card-section>
   </q-card>
 </template>
 

@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import RecipeCard from 'src/components/RecipeCard.vue'
+import { ref, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, onSnapshot, deleteDoc } from 'firebase/firestore'
 
 const props = defineProps({
   id: {
@@ -10,61 +12,48 @@ const props = defineProps({
   }
 })
 
+const router = useRouter()
+
 const data = ref({})
+const loading = ref(true)
+
 const docRef = doc(db, 'recipes', props.id)
 const subscribe = () => {
-  const unsub = onSnapshot(
+  return onSnapshot(
     docRef,
     (snapshot) => {
+      loading.value = true
       if (snapshot.exists()) {
         data.value = snapshot.data()
       } else {
         console.log('No such document!')
       }
+      loading.value = false
     },
     (error) => {
       console.log(error)
+      loading.value = false
     }
   )
-  return unsub
 }
-subscribe()
+
+const deleteRecipe = async () => {
+  await deleteDoc(docRef)
+  router.push('/recipes')
+}
+
+const unsubscribe = subscribe()
+onUnmounted(() => {
+  unsubscribe()
+})
 </script>
 <template>
   <q-page padding>
-    <q-btn dense flat :to="'/recipes'" icon="mdi-chevron-left" class="q-pr-sm q-pl-none q-mb-sm">Back</q-btn>
-    <q-card>
-      <q-card-section class="card-title">{{ data.title }}</q-card-section>
-      <q-card-section class="q-py-xs">
-        <q-list>
-          <q-item v-if="data.link" :href="data.link" target="_blank">
-            <q-item-section avatar>
-              <q-icon name="link" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Source</q-item-label>
-              <q-item-label caption>{{ data.link }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-card-section>
-      <q-card-section class="q-py-xs">
-        <q-input
-        label="Notes"
-        filled
-        readonly
-        v-model="data.notes"
-        type="textarea"
-        />
-      </q-card-section>
-      <q-card-section class="text-muted text-center">
-        Updated
-        {{ data.last_updated?.toDate().toLocaleDateString() }}
-        {{ data.last_updated?.toDate().toLocaleTimeString() }}
-      </q-card-section>
-    </q-card>
-    <div class="q-pt-sm row justify-center">
-      <q-btn dense flat color="negative">delete</q-btn>
+    <q-btn flat :to="'/recipes'" icon="mdi-chevron-left" class="q-pr-sm q-pl-none q-mb-sm" color="primary">Back</q-btn>
+    <recipe-card :data="data" :loading="loading" />
+    <div class="q-pt-sm row justify-center q-gutter-sm">
+      <q-btn unelevated :to="`/recipes/${id}/edit`" color="primary">update</q-btn>
+      <q-btn unelevated color="negative" @click="deleteRecipe">delete</q-btn>
     </div>
   </q-page>
 </template>

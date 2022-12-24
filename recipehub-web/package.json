@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "quasar dev",
     "build": "quasar build",
-    "deploy": "firebase deploy --only hosting",
+    "deploy": "quasar build && firebase deploy --only hosting",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
