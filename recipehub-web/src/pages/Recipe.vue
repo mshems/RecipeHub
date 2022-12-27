@@ -37,8 +37,10 @@ const subscribe = () => {
   )
 }
 
+const confirm = ref(false)
 const deleteRecipe = async () => {
   await deleteDoc(docRef)
+  confirm.value = false
   router.push('/recipes')
 }
 
@@ -49,11 +51,26 @@ onUnmounted(() => {
 </script>
 <template>
   <q-page padding>
-    <q-btn flat :to="'/recipes'" icon="mdi-chevron-left" class="q-pr-sm q-pl-none q-mb-sm" color="primary">Back</q-btn>
-    <recipe-card :data="data" :loading="loading" />
+    <div class="row justify-center q-pt-lg">
+      <recipe-card class="col" :data="data" :loading="loading" style="max-width: 800px;" />
+    </div>
     <div class="q-pt-sm row justify-center q-gutter-sm">
-      <q-btn unelevated :to="`/recipes/${id}/edit`" color="primary">update</q-btn>
-      <q-btn unelevated color="negative" @click="deleteRecipe">delete</q-btn>
+      <q-btn flat :to="'/recipes'" icon="mdi-chevron-left" color="secondary" class="q-pl-sm">Back</q-btn>
+      <q-btn unelevated :to="`/recipes/${id}/edit`" color="warning">update</q-btn>
+      <q-btn unelevated color="negative" @click="confirm = true">delete</q-btn>
+      <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="mdi-delete" color="negative" text-color="white" />
+          <span class="q-ml-sm">Delete this recipe?</span>
+        </q-card-section>
+
+        <q-card-actions class="row justify-center q-gutter-sm">
+          <q-btn flat label="Cancel" color="grey" v-close-popup />
+          <q-btn unelevated label="Delete" color="negative" @click="deleteRecipe" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     </div>
   </q-page>
 </template>

@@ -1,4 +1,6 @@
 <script setup>
+import AppHeader from 'src/components/AppHeader.vue'
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
@@ -12,6 +14,7 @@ const addRecipe = async () => {
   const now = new Date()
   const recipe = await addDoc(collection(db, 'recipes'), {
     title: form.value.title,
+    image: form.value.image || '',
     link: form.value.link || '',
     notes: form.value.notes || '',
     created: now,
@@ -23,17 +26,27 @@ const addRecipe = async () => {
 
 <template>
   <q-page padding>
-    <q-btn dense flat :to="'/recipes'" icon="mdi-chevron-left" class="q-pr-sm q-pl-none q-mb-sm">Back</q-btn>
+    <app-header :title="'Create'"/>
+
     <q-card>
       <q-card-section>
         <q-form class='q-gutter-sm' @submit.prevent="addRecipe">
           <q-input
+            clearable
             required
             outlined
             v-model="form.title"
             label='Recipe Title'
+            input-class="text-bold"
           />
           <q-input
+            clearable
+            outlined
+            v-model="form.image"
+            label='Image'
+          />
+          <q-input
+            clearable
             outlined
             v-model="form.link"
             label='Link'
@@ -44,11 +57,14 @@ const addRecipe = async () => {
             label='Notes'
             type='textarea'
           />
-          <q-btn
+          <div class="row">
+            <q-space/>
+            <q-btn
             type='submit'
-            color='primary'
+            color='positive'
             label='Add Recipe'
-          />
+            />
+          </div>
         </q-form>
       </q-card-section>
     </q-card>

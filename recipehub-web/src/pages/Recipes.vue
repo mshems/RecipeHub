@@ -1,46 +1,10 @@
-<template>
-  <q-page padding class="column">
-    <div class="column items-baseline">
-      <div class="text-bold header">Recipes</div>
-    </div>
-    <q-list class="q-pa-none q-gutter-sm">
-      <template v-for="recipe, i in recipes" :key="i">
-        <q-card class="cursor-pointer q-pb-sm" @click="router.push(`/recipes/${recipe.id}`)">
-          <q-img
-            :src="recipe.image || `https://dummyimage.com/600x400/909090/ffffff?text=${recipe.title}`"
-            :ratio="16/9"
-            no-spinner
-          />
-          <q-card-section class="card-title q-pt-sm">
-            <q-skeleton v-if="loading" type="text" />
-            <span v-else>{{ recipe.title }}</span>
-          </q-card-section>
-          <q-item v-if="recipe.link">
-            <q-item-section avatar>
-              <q-icon name="link" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Source</q-item-label>
-              <q-item-label caption>{{ recipe.link }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-card>
-      </template>
-    </q-list>
-  </q-page>
-
-  <q-page-sticky position="bottom-right" :offset="[18, 18]">
-    <q-btn fab icon="add" color="primary" :to="'/recipes/new'"/>
-  </q-page-sticky>
-</template>
-
 <script setup>
+import AppHeader from 'src/components/AppHeader.vue'
+import RecipePreview from 'src/components/RecipePreview.vue'
+
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
 import { collection, query, onSnapshot, orderBy } from 'firebase/firestore'
-
-const router = useRouter()
 
 const recipesCollection = collection(db, 'recipes')
 const recipesQuery = query(recipesCollection, orderBy('last_updated', 'desc'))
@@ -69,11 +33,19 @@ const subscribe = () => {
 subscribe()
 </script>
 
-<style scoped>
-.header {
-  font-size: 4.5rem;
-}
-.subheader {
-  font-size: 2rem;
-}
-</style>
+<template>
+  <q-page padding class="column">
+    <app-header :title="'Recipes'"/>
+    <div class="q-pa-none row q-col-gutter-sm">
+      <template v-for="recipe, i in recipes" :key="i">
+        <div class="row col-12 col-sm-6 col-md-4 col-lg-3">
+          <recipe-preview :data="recipe"/>
+        </div>
+      </template>
+    </div>
+  </q-page>
+
+  <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-btn fab icon="add" color="positive" :to="'/recipes/new'"/>
+  </q-page-sticky>
+</template>

@@ -14,7 +14,8 @@ defineProps({
 <template>
   <q-card>
     <q-img
-      :src="data.image || `https://dummyimage.com/600x400/909090/ffffff`"
+      v-if="data.image"
+      :src="data.image"
       :ratio="16/9"
       spinner-color="primary"
     />
@@ -24,9 +25,9 @@ defineProps({
     </q-card-section>
     <q-card-section class="q-py-xs">
       <q-list>
-        <q-item v-if="data.link" :href="data.link" target="_blank">
+        <q-item v-if="data.link" clickable :href="data.link" target="_blank" class="q-pl-xs">
           <q-item-section avatar>
-            <q-icon name="link" />
+            <q-avatar icon="link" color="grey" class="text-white"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Source</q-item-label>
