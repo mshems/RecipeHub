@@ -35,17 +35,15 @@ if (source.value) {
     />
     <q-card-section class="card-title q-pt-sm">
       <q-skeleton v-if="loading" type="text" />
-      <span v-else>{{ data.title }}</span>
+      <div v-else class="row">
+        <div class="col">{{ data.title }}</div>
+        <q-icon class="col-shrink q-mt-xs" v-if="data.favorite" name="mdi-star" color="warning" />
+      </div>
     </q-card-section>
-
-    <q-item v-if="data.link">
-      <q-item-section avatar>
-        <q-avatar icon="link" color="accent" class="text-white"/>
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>Source</q-item-label>
-        <q-item-label caption>{{ source }}</q-item-label>
-      </q-item-section>
-    </q-item>
+    <q-card-section class="card-subtitle q-pt-sm">
+      <span>
+        {{ source }}
+      </span>
+    </q-card-section>
   </q-card>
 </template>

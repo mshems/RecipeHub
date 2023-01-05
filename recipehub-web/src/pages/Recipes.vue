@@ -36,6 +36,7 @@ subscribe()
 <template>
   <q-page padding class="column">
     <app-header :title="'Recipes'"/>
+
     <div class="q-pa-none row q-col-gutter-sm">
       <template v-for="recipe, i in recipes" :key="i">
         <div class="row col-12 col-sm-6 col-md-4 col-lg-3">
@@ -46,6 +47,14 @@ subscribe()
   </q-page>
 
   <q-page-sticky position="bottom-right" :offset="[18, 18]">
-    <q-btn fab icon="add" color="positive" :to="'/recipes/new'"/>
+    <q-fab
+      vertical-actions-align="right"
+      color="positive"
+      icon="mdi-plus"
+      direction="up"
+      size="lg"
+    >
+      <q-fab-action color="primary" :to="'/recipes/new'" icon="mdi-pot-steam" label="New Recipe" />
+    </q-fab>
   </q-page-sticky>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
-import { useUserStore } from 'src/stores/user'
-const user = useUserStore()
+// import { useUserStore } from 'src/stores/user'
+// const user = useUserStore()
 defineProps({
   title: {
     type: String,
@@ -8,20 +8,22 @@ defineProps({
   },
 })
 
-const login = () => {
-  user.login()
-}
+// const login = () => {
+//   user.login()
+// }
 
-const logout = () => {
-  user.logout()
-}
+// const logout = () => {
+//   user.logout()
+// }
 </script>
 
 <template>
-  <q-toolbar class="items-center">
+  <q-toolbar class="items-center q-px-none">
     <q-icon name="mdi-pot-steam" class="header text-dark" color="primary"/>
-    <div class="header text-dark">{{ title }}</div>
+    <div class="header text-dark no-wrap ellipsis">{{ title }}</div>
+    <slot name="left"></slot>
     <q-space/>
+    <slot name="right"></slot>
     <!-- <q-btn v-if="!user.authorized" round flat icon="mdi-login" @click="login" no-caps/> -->
     <!-- <q-btn v-else round unelevated icon="mdi-account" @click="logout" color="primary"/> -->
     <!-- <q-btn round flat icon="mdi-menu"/> -->
