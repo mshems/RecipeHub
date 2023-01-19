@@ -1,20 +1,27 @@
 <script setup>
-// import { useUserStore } from 'src/stores/user'
-// const user = useUserStore()
+import { useRouter } from 'vue-router'
+import { useUserStore } from 'src/stores/user'
+
+const router = useRouter()
+const user = useUserStore()
 defineProps({
   title: {
     type: String,
     required: true
   },
+  hideAccount: {
+    type: Boolean,
+    default: false
+  }
 })
 
-// const login = () => {
-//   user.login()
-// }
+const login = () => {
+  router.push('/login')
+}
 
-// const logout = () => {
-//   user.logout()
-// }
+const logout = () => {
+  user.logout()
+}
 </script>
 
 <template>
@@ -24,9 +31,10 @@ defineProps({
     <slot name="left"></slot>
     <q-space/>
     <slot name="right"></slot>
-    <!-- <q-btn v-if="!user.authorized" round flat icon="mdi-login" @click="login" no-caps/> -->
-    <!-- <q-btn v-else round unelevated icon="mdi-account" @click="logout" color="primary"/> -->
-    <!-- <q-btn round flat icon="mdi-menu"/> -->
+    <div v-if="!hideAccount" class="q-pt-sm">
+      <q-btn v-if="!user.authorized" round flat icon="mdi-login" @click="login" no-caps/>
+      <q-btn v-else round unelevated icon="mdi-account" @click="logout" color="primary"/>
+    </div>
   </q-toolbar>
 </template>
 

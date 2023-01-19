@@ -20,6 +20,13 @@ const routes = [
       { path: ':id', props: true, component: () => import('src/pages/Recipe.vue') },
       { path: ':id/edit', props: true, component: () => import('src/pages/EditRecipe.vue') }
     ]
+  },
+  {
+    path: '/login',
+    component: () => import('layouts/EmptyLayout.vue'),
+    children: [
+      { path: '', props: false, component: () => import('src/pages/Login.vue') }
+    ]
   }
 ]
 

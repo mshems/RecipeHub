@@ -1,19 +1,28 @@
+<script setup>
+import { useRouter } from 'vue-router'
+import { useUserStore } from 'src/stores/user'
+
+const router = useRouter()
+const user = useUserStore()
+</script>
+
 <template>
   <q-layout view="lHh Lpr fFf">
-    <!-- <q-header>
-      <q-toolbar class="text-primary bg-body">
-        <q-toolbar-title>
-          <q-btn flat label="RecipeHub" @click="() => router.push('/')" />
-        </q-toolbar-title>
-        <q-space />
-        <q-btn round flat color="primary" icon="mdi-dots-vertical-circle-outline"/>
-      </q-toolbar>
-    </q-header> -->
     <q-page-container>
-      <router-view />
+      <template v-if="user.authorized">
+        <router-view />
+      </template>
+      <q-banner rounded inline-actions class="q-ma-lg text-white bg-primary">
+        Please log in.
+        <template v-slot:action>
+          <q-btn
+            label="Sign In"
+            color="white"
+            text-color="primary"
+            @click="router.push('/login')"
+          />
+        </template>
+      </q-banner>
     </q-page-container>
   </q-layout>
 </template>
-
-<script setup>
-</script>
