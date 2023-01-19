@@ -8,9 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-
-const { configure } = require('quasar/wrappers');
-
+const { configure } = require('quasar/wrappers')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -78,8 +76,6 @@ module.exports = configure(function (/* ctx */) {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
-
-      
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
       // ]
@@ -88,6 +84,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
+      port: 8080,
       open: true // opens browser window automatically
     },
 
@@ -132,7 +129,6 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       // ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
-                                          // will mess up SSR
 
       // extendSSRWebserverConf (esbuildConf) {},
       // extendPackageJson (json) {},
@@ -143,7 +139,7 @@ module.exports = configure(function (/* ctx */) {
       // manualPostHydrationTrigger: true,
 
       prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
+      // (gets superseded if process.env.PORT is specified at runtime)
 
       middlewares: [
         'render' // keep this as last one
@@ -213,4 +209,4 @@ module.exports = configure(function (/* ctx */) {
       // extendBexManifestJson (json) {}
     }
   }
-});
+})

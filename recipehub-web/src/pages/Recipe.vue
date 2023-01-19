@@ -3,6 +3,7 @@ import { ref, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
 import { doc, onSnapshot, deleteDoc, setDoc } from 'firebase/firestore'
+import { useUserStore } from 'src/stores/user'
 
 const props = defineProps({
   id: {
@@ -11,6 +12,7 @@ const props = defineProps({
   }
 })
 
+const user = useUserStore()
 const router = useRouter()
 
 const data = ref({})
@@ -29,8 +31,7 @@ const subscribe = () => {
       }
       loading.value = false
     },
-    (error) => {
-      console.log(error)
+    () => {
       loading.value = false
     }
   )
@@ -72,7 +73,7 @@ onUnmounted(() => {
           <q-skeleton v-if="loading" type="text" />
           <div v-else class="row">
             <div class="col">{{ data.title }}</div>
-            <div class="col-shrink">
+            <div class="col-shrink" v-if="user.authorized">
               <q-btn
                 v-if="data.favorite"
                 dense
@@ -140,16 +141,10 @@ onUnmounted(() => {
         </q-card-actions>
       </q-card>
     </div>
-    <div class="q-pt-sm row justify-center q-gutter-sm">
-      <!-- <q-btn unelevated :to="`/recipes/${id}/edit`" color="warning">update</q-btn> -->
-      <!-- <q-btn flat unelevated color="negative" @click="confirm = true">delete</q-btn> -->
-    </div>
 
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="mdi-delete" color="negative" text-color="white" />
-          <span class="q-ml-sm">Delete this recipe?</span> -->
           <q-item class="q-pa-none">
             <q-item-section avatar>
               <q-avatar icon="mdi-delete" color="negative" text-color="white" />

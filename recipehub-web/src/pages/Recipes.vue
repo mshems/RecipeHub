@@ -22,8 +22,7 @@ const subscribe = () => {
       loading.value = false
       error.value = true
     },
-    (err) => {
-      console.log(err)
+    () => {
       loading.value = false
       error.value = true
     }
