@@ -33,11 +33,23 @@ if (source.value) {
       :ratio="16/9"
       no-spinner
     />
+    <q-img
+      v-else
+      :src="'placeholder'"
+      :ratio="16/9"
+      no-spinner
+    >
+      <template v-slot:error>
+        <div class="absolute-full flex flex-center bg-accent text-white">
+          <q-icon name="mdi-pot-steam" size="5rem" />
+        </div>
+      </template>
+    </q-img>
     <q-card-section class="card-title q-pt-sm">
       <q-skeleton v-if="loading" type="text" />
       <div v-else class="row">
-        <div class="col">{{ data.title }}</div>
-        <q-icon class="col-shrink q-mt-xs" v-if="data.favorite" name="mdi-star" color="warning" />
+        <div class="col no-wrap ellipsis">{{ data.title }}</div>
+        <q-icon class="col-shrink q-mt-xs" v-if="data.favorite" name="mdi-star" color="yellow-8" />
       </div>
     </q-card-section>
     <q-card-section class="card-subtitle q-pt-sm">

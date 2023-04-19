@@ -1,15 +1,18 @@
 <script setup>
 import AppHeader from 'src/components/AppHeader.vue'
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
 import { collection, addDoc } from 'firebase/firestore'
+import sanitizeHtml from 'sanitize-html'
 
 const router = useRouter()
 const form = ref({
   body: '',
 })
+
+const sanitized = computed(() => sanitizeHtml(form.value.body))
 
 const editorRef = ref(null)
 const onPaste = (evt) => {
@@ -39,12 +42,12 @@ const addRecipe = async () => {
     title: form.value.title,
     image: form.value.image || '',
     link: form.value.link || '',
-    body: form.value.body || '',
+    body: sanitized.value || '',
     notes: form.value.notes || '',
     created: now,
     last_updated: now
   })
-  router.push(`/recipes/${recipe.id}`)
+  router.replace(`/recipes/${recipe.id}`)
 }
 </script>
 

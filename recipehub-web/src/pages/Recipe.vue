@@ -68,7 +68,8 @@ onUnmounted(() => {
           :src="data.image"
           :ratio="16/9"
           spinner-color="primary"
-        />
+        >
+        </q-img>
         <q-card-section class="card-title">
           <q-skeleton v-if="loading" type="text" />
           <div v-else class="row">
@@ -79,7 +80,7 @@ onUnmounted(() => {
                 dense
                 round
                 flat
-                color="warning"
+                color="yellow-8"
                 unelevated
                 icon="mdi-star"
                 @click="unfavorite"
@@ -97,7 +98,7 @@ onUnmounted(() => {
               <q-btn
                 round
                 flat
-                color="warning"
+                color="accent"
                 unelevated
                 :to="'/recipes/' + props.id + '/edit'"
                 icon="mdi-square-edit-outline"

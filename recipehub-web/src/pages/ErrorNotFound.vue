@@ -1,21 +1,23 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen bg-accent text-white text-center q-pa-md flex flex-center">
     <div>
-      <div style="font-size: 30vh">
-        404
+      <div class="text-h1 q-mb-lg">
+        <q-icon name="mdi-chef-hat"/>
       </div>
-
       <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+        Error 404
       </div>
 
       <q-btn
+        size="xl"
         class="q-mt-xl"
         color="white"
-        text-color="blue"
+        text-color="accent"
         unelevated
         to="/"
-        label="Go Home"
+        rounded
+        icon="mdi-pot-steam"
+        label="Get Cooking"
         no-caps
       />
     </div>

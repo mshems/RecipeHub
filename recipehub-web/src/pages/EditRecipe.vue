@@ -1,10 +1,11 @@
 <script setup>
 import AppHeader from 'src/components/AppHeader.vue'
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { db } from 'boot/firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import sanitizeHtml from 'sanitize-html'
 
 const props = defineProps({
   id: {
@@ -19,6 +20,9 @@ const loading = ref(false)
 const form = ref({
   body: '',
 })
+
+const sanitized = computed(() => sanitizeHtml(form.value.body))
+
 const docRef = doc(db, 'recipes', props.id)
 const getRecipe = async () => {
   loading.value = true
@@ -57,11 +61,11 @@ const save = async () => {
     title: form.value.title,
     image: form.value.image,
     link: form.value.link,
-    body: form.value.body,
+    body: sanitized.value,
     notes: form.value.notes,
     last_updated: new Date(),
   }, { merge: true })
-  router.push(`/recipes/${props.id}`)
+  router.go(-1)
 }
 
 onMounted(() => {
@@ -152,7 +156,7 @@ onMounted(() => {
           />
           <div class="row q-gutter-sm">
             <q-space/>
-            <q-btn flat color="negative" @click="router.push(`/recipes/${id}`)">cancel</q-btn>
+            <q-btn flat color="negative" @click="router.go(-1)">cancel</q-btn>
             <q-btn color="positive" type="submit">save</q-btn>
           </div>
         </q-form>
