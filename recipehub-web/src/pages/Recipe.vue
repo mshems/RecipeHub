@@ -59,7 +59,7 @@ onUnmounted(() => {
 </script>
 <template>
   <q-page padding>
-    <q-btn flat :to="'/recipes'" icon="mdi-chevron-left" color="secondary" class="q-pl-xs q-pr-sm q-mb-sm">Recipes</q-btn>
+    <q-btn flat :to="'/recipes'" icon="mdi-chevron-left" color="accent" class="q-pl-xs q-pr-sm q-mb-sm">Recipes</q-btn>
 
     <div class="row justify-center">
       <q-card class="col" style="max-width: 800px;">
@@ -72,8 +72,8 @@ onUnmounted(() => {
         </q-img>
         <q-card-section class="card-title">
           <q-skeleton v-if="loading" type="text" />
-          <div v-else class="row">
-            <div class="col">{{ data.title }}</div>
+          <div v-else class="row items-center">
+            <div class="col ellipsis">{{ data.title }}</div>
             <div class="col-shrink" v-if="user.authorized">
               <q-btn
                 v-if="data.favorite"
@@ -107,8 +107,8 @@ onUnmounted(() => {
           </div>
         </q-card-section>
         <q-card-section class="q-py-xs">
-          <q-list>
-            <q-item v-if="data.link" clickable :href="data.link" target="_blank" class="q-pl-xs">
+          <q-list v-if="data.link">
+            <q-item clickable :href="data.link" target="_blank" class="q-pl-xs">
               <q-item-section avatar>
                 <q-avatar icon="link" color="accent" class="text-white"/>
               </q-item-section>
@@ -118,6 +118,7 @@ onUnmounted(() => {
               </q-item-section>
             </q-item>
           </q-list>
+          <q-separator v-else/>
         </q-card-section>
         <q-card-section v-if="data.body != '<br>'" class="q-py-xs">
           <div v-html="data.body" class="q-px-sm recipe"/>

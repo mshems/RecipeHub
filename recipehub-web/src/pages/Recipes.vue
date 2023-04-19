@@ -34,12 +34,12 @@ subscribe()
 
 <template>
   <q-page padding class="column">
-    <app-header :title="'Recipes'"/>
+    <app-header :title="'RecipeHub'"/>
 
     <div class="q-pa-none row q-col-gutter-sm">
       <template v-for="recipe, i in recipes" :key="i">
         <div class="row col-12 col-sm-6 col-md-4 col-lg-3">
-          <recipe-preview :data="recipe"/>
+          <recipe-preview :data="recipe" class="col-12"/>
         </div>
       </template>
     </div>

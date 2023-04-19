@@ -12,6 +12,7 @@ const password = ref('')
 const error = ref(null)
 const errorEmail = ref(false)
 const errorPassword = ref(false)
+const showPassword = ref(false)
 
 const login = () => {
   error.value = null
@@ -47,7 +48,7 @@ const login = () => {
     <q-card>
       <q-form @submit.prevent="login">
         <q-card-section>
-          <app-header :title="'Recipes'" hide-account class="q-pr-md"/>
+          <app-header :title="'RecipeHub'" hide-account class="q-pr-md"/>
           <q-separator/>
           <q-banner v-if="error" rounded class="q-mt-md text-white bg-primary">
             {{ error }}
@@ -68,10 +69,18 @@ const login = () => {
             color="accent"
             v-model="password"
             label="Password"
-            type="password"
+            :type="!showPassword ? 'password' : 'text'"
             :error="errorPassword"
             error-message="Please enter your password"
-          />
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="showPassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </q-input>
         </q-card-section>
         <q-card-actions align="center" class="row q-px-md q-pb-md">
           <q-btn unelevated no-caps class="col" label="Sign In" color="primary" type="submit" />

@@ -1,11 +1,15 @@
 // app global css in SCSS form
 body {
-  background: #f1f2f7;
+  background: #ebebeb;
   color: #1d1d1d;
 }
 
+body.body--dark {
+  color: #dbd1d1;
+}
+
 .bg-body {
-  background: #f1f2f7;
+  background: #dbd1d1;
 }
 
 .text-muted {
@@ -16,6 +20,10 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   padding-bottom: 0px;
+}
+
+.body--dark .card-title {
+  color: #dbd1d1;
 }
 
 .card-subtitle {
@@ -31,4 +39,17 @@ body {
 
 .clickable-card:hover {
   background-color: #ccd8f0;
+}
+
+.q-card--dark {
+  border: 1px solid rgba(128, 128, 128, 0.28);
+  box-shadow: inherit !important;
+}
+
+.q-dark {
+  color: #dbd1d1;
+}
+
+.q-list--dark, .q-item--dark {
+  color: #dbd1d1;
 }
